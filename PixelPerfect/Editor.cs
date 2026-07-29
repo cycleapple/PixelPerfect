@@ -16,10 +16,10 @@ namespace PixelPerfect
                 var mY = ImGui.GetMousePos().Y;
 
                 ImGui.SetNextWindowSize(new Vector2(500, 500), ImGuiCond.FirstUseEver);
-                ImGui.Begin("Pixel Perfect Editor", ref _editor);
+                ImGui.Begin("Pixel Perfect 編輯器", ref _editor);
                 ImGui.PushItemWidth(100);
-                ImGui.InputFloat("Scale", ref _editorScale, 0.1f, 1f);
-                if (ImGui.IsItemHovered()) { ImGui.SetTooltip("Each box is 1 Yalm by 1 Yalm"); }
+                ImGui.InputFloat("縮放", ref _editorScale, 0.1f, 1f);
+                if (ImGui.IsItemHovered()) { ImGui.SetTooltip("每個方格為 1 × 1 星碼"); }
                 ImGui.PopItemWidth();
                 if (_editorScale <= 0.1f) _editorScale = 0.1f;
 
@@ -29,7 +29,7 @@ namespace PixelPerfect
                 var linesY = Math.Ceiling(windowMax.Y / (10 * _editorScale));
                 var linesX = Math.Ceiling(windowMax.X / (10 * _editorScale));
 
-                if (ImGui.Button("Help"))
+                if (ImGui.Button("說明"))
                 {
                     _editorHelp = !_editorHelp;
                 }
@@ -278,23 +278,23 @@ namespace PixelPerfect
             if (_editorHelp)
             {
                 ImGui.SetNextWindowSize(new Vector2(300, 300), ImGuiCond.FirstUseEver);
-                ImGui.Begin("Pixel Perfect Editor Help", ref _editorHelp);
-                ImGui.TextWrapped("Here you can see and edit your overlay in real time.");
-                ImGui.TextWrapped("Select the Doodle tab in the config, and the selected doodle will highlight in the editor.");
-                ImGui.TextWrapped("If you have a `line` doodle, you can also <Left Click> the ends to move them, and <Left Click> again to place them down.");
-                ImGui.TextWrapped("The dot in the centre is your player character.");
+                ImGui.Begin("Pixel Perfect 編輯器說明", ref _editorHelp);
+                ImGui.TextWrapped("你可以在此即時查看並編輯覆蓋圖形。");
+                ImGui.TextWrapped("在設定中選擇圖形分頁後，該圖形會在編輯器內反白顯示。");
+                ImGui.TextWrapped("若使用「線段」圖形，可用滑鼠左鍵點擊端點來移動，再次點擊即可放置。");
+                ImGui.TextWrapped("中央的圓點代表你的玩家角色。");
                 ImGui.End();
             }
 
             if (_update)
             {
                 ImGui.SetNextWindowSize(new Vector2(300, 400), ImGuiCond.FirstUseEver);
-                ImGui.Begin("Pixel Perfect Update", ref _update);
-                ImGui.TextWrapped("Updated for 7.0!");
-                ImGui.TextWrapped("- Added VPR and PCT.");
-                ImGui.TextWrapped("- Added Cones for object drawing");
-                ImGui.TextWrapped("- Added Z Editing");
-                if (ImGui.Button("Open Config"))
+                ImGui.Begin("Pixel Perfect 更新", ref _update);
+                ImGui.TextWrapped("已更新至 7.0！");
+                ImGui.TextWrapped("- 新增 VPR 與 PCT。");
+                ImGui.TextWrapped("- 新增用於物件繪製的扇形");
+                ImGui.TextWrapped("- 新增 Z 軸編輯");
+                if (ImGui.Button("開啟設定"))
                 {
                     _config = true;
                 }

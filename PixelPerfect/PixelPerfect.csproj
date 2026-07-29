@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <Authors>Haplo064</Authors>
-        <Version>3.3.2.0</Version>
-        <Description>Perfecting Pixels</Description>
+        <Version>3.3.2.1</Version>
+        <Description>精準顯示玩家碰撞範圍與自訂站位圖形</Description>
         <PackageProjectUrl>https://github.com/Haplo064/PixelPerfect</PackageProjectUrl>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

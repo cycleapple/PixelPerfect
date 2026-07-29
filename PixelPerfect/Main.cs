@@ -120,7 +120,7 @@ namespace PixelPerfect
                 if (!_bitch) { _update = true; }
             }
 
-            _doodleOptions = new[]{ "Ring","Line","Dot","Dashed Ring","Cone"};
+            _doodleOptions = new[]{ "環形", "線段", "圓點", "虛線環", "扇形" };
             _doodleJobs = new[] {
                 "All",
                 "PLD", "WAR", "DRK", "GNB",
@@ -149,7 +149,7 @@ namespace PixelPerfect
             //luginInterface.UiBuilder.OpenConfigUi += ConfigWindow;
             commandManager.AddHandler("/pp", new CommandInfo(Command)
             {
-                HelpMessage = "Pixel Perfect config."
+                HelpMessage = "開啟 Pixel Perfect 設定。"
             }) ;
         }
 

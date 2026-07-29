@@ -17,11 +17,11 @@ public partial class PixelPerfect
         if (_firstTime && !_bitch)
         {
             ImGui.SetNextWindowSize(new Vector2(500, 500), ImGuiCond.FirstUseEver);
-            ImGui.Begin("Welcome to Pixel Perfect!", ref _firstTime);
-            ImGui.TextWrapped("Hey, and thanks for installing my plugin!");
+            ImGui.Begin("歡迎使用 Pixel Perfect！", ref _firstTime);
+            ImGui.TextWrapped("感謝你安裝本插件！");
             ImGui.Text("");
-            ImGui.TextWrapped("Use the config menu, and add a doodle to get started.");
-            if (ImGui.Button("Open Config"))
+            ImGui.TextWrapped("請開啟設定並新增圖形以開始使用。");
+            if (ImGui.Button("開啟設定"))
             {
                 _config = true;
             }
@@ -35,17 +35,17 @@ public partial class PixelPerfect
         {
             ImGui.PushStyleVar(ImGuiStyleVar.WindowMinSize, new Vector2(750, 650));
             ImGui.SetNextWindowSize(new Vector2(750, 650), ImGuiCond.FirstUseEver);
-            ImGui.Begin("Pixel Perfect Config", ref _config);
+            ImGui.Begin("Pixel Perfect 設定", ref _config);
 
             ImGui.BeginTabBar("Config Tabs");
 
-            if (ImGui.BeginTabItem("Config##Doodles"))
+            if (ImGui.BeginTabItem("設定##Doodles"))
             {
                 var number2 = 0;
-                ImGui.Checkbox("Hide Updates", ref _bitch);
+                ImGui.Checkbox("隱藏更新訊息", ref _bitch);
                 if (ImGui.IsItemHovered())
                 {
-                    ImGui.SetTooltip("Never show any messages.");
+                    ImGui.SetTooltip("不再顯示任何更新訊息。");
                 }
 
                 ImGui.Separator();
@@ -57,39 +57,39 @@ public partial class PixelPerfect
                     var unsheathed = doodle.Unsheathed;
 
                     var name = doodle.Name;
-                    ImGui.Checkbox($"Enable ##{number2}", ref enabled);
+                    ImGui.Checkbox($"啟用##{number2}", ref enabled);
                     if (ImGui.IsItemHovered())
                     {
-                        ImGui.SetTooltip("Turn the doodle on/off entirely");
+                        ImGui.SetTooltip("完整啟用或停用此圖形");
                     }
 
                     ImGui.SameLine();
-                    ImGui.Checkbox($"Combat ##{number2}", ref combat);
+                    ImGui.Checkbox($"戰鬥中##{number2}", ref combat);
                     if (ImGui.IsItemHovered())
                     {
-                        ImGui.SetTooltip("Only show when engaged in combat");
+                        ImGui.SetTooltip("僅在進入戰鬥時顯示");
                     }
 
                     ImGui.SameLine();
-                    ImGui.Checkbox($"Instance ##{number2}", ref instance);
+                    ImGui.Checkbox($"任務區域##{number2}", ref instance);
                     if (ImGui.IsItemHovered())
                     {
-                        ImGui.SetTooltip("Only show when in an instance (a dungeon/raid etc)");
+                        ImGui.SetTooltip("僅在任務區域內顯示（迷宮／大型任務等）");
                     }
 
                     ImGui.SameLine();
-                    ImGui.Checkbox($"Unsheathed ##{number2}", ref unsheathed);
+                    ImGui.Checkbox($"拔出武器##{number2}", ref unsheathed);
                     if (ImGui.IsItemHovered())
                     {
-                        ImGui.SetTooltip("Only show when your weapon is unsheathed");
+                        ImGui.SetTooltip("僅在拔出武器時顯示");
                     }
 
                     ImGui.SameLine();
                     ImGui.PushItemWidth(150);
-                    ImGui.InputText($"Name##{number2}", ref name, 20);
+                    ImGui.InputText($"名稱##{number2}", ref name, 20);
                     if (ImGui.IsItemHovered())
                     {
-                        ImGui.SetTooltip("Name the doodle!");
+                        ImGui.SetTooltip("設定圖形名稱");
                     }
 
                     ImGui.PopItemWidth();
@@ -115,14 +115,14 @@ public partial class PixelPerfect
                         ImGui.SameLine();
                     }
 
-                    if (ImGui.Button($"Delete##{number2}"))
+                    if (ImGui.Button($"刪除##{number2}"))
                     {
                         deleteNum = number2;
                     }
 
                     if (ImGui.IsItemHovered())
                     {
-                        ImGui.SetTooltip("Delete the doodle");
+                        ImGui.SetTooltip("刪除此圖形");
                     }
 
                     number2++;
@@ -134,36 +134,36 @@ public partial class PixelPerfect
                 }
 
                 ImGui.Separator();
-                if (ImGui.Button("Add Doodle"))
+                if (ImGui.Button("新增圖形"))
                 {
                     _doodleBag.Add(new Drawing());
                 }
 
-                if (ImGui.Button("Show Editor"))
+                if (ImGui.Button("顯示編輯器"))
                 {
                     _editor = !_editor;
                 }
 
                 ImGui.Separator();
-                ImGui.TextWrapped("You can export and import your doodles to share, by using the buttons below.");
+                ImGui.TextWrapped("你可以使用下方按鈕匯出或匯入圖形以便分享。");
                 ImGui.TextWrapped(
-                    "Either export your current doodles to your clipboard, and then share the string with your friends, or import a currently copied exported string into your own doodles, by using the import button!");
-                if (ImGui.Button("Export"))
+                    "匯出會將目前圖形複製到剪貼簿，讓你把字串分享給朋友；匯入則會讀取剪貼簿中的匯出字串並加入你的圖形。");
+                if (ImGui.Button("匯出"))
                 {
                     var json = JsonConvert.SerializeObject(this._doodleBag);
                     var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
                     ImGui.SetClipboardText(base64);
-                    this.AddNotification("Copied to clipboard", NotificationType.Info);
+                    this.AddNotification("已複製到剪貼簿", NotificationType.Info);
                 }
 
                 if (ImGui.IsItemHovered())
                 {
-                    ImGui.SetTooltip("Exports your current Doodles to your clipboard for sharing!");
+                    ImGui.SetTooltip("將目前圖形匯出至剪貼簿以便分享");
                 }
 
                 ImGui.SameLine();
 
-                if (ImGui.Button("Import from Clipboard"))
+                if (ImGui.Button("從剪貼簿匯入"))
                 {
                     try
                     {
@@ -173,17 +173,17 @@ public partial class PixelPerfect
                         var bag = JsonConvert.DeserializeObject<List<Drawing>>(json);
                         _doodleBag.AddRange(bag);
                         SaveConfig();
-                        this.AddNotification("Imported successfully", NotificationType.Success);
+                        this.AddNotification("匯入成功", NotificationType.Success);
                     }
                     catch
                     {
-                        this.AddNotification("Could not import", NotificationType.Error);
+                        this.AddNotification("無法匯入", NotificationType.Error);
                     }
                 }
 
                 if (ImGui.IsItemHovered())
                 {
-                    ImGui.SetTooltip("Imports your current clipboard to your Doodles!");
+                    ImGui.SetTooltip("將剪貼簿內容匯入圖形清單");
                 }
 
                 ImGui.EndTabItem();
@@ -219,9 +219,9 @@ public partial class PixelPerfect
                     var outlineColour = doodle.OutlineColour;
 
                     ImGui.PushItemWidth(300);
-                    ImGui.Combo($"Type ##{number}", ref type, _doodleOptions, _doodleOptions.Length);
-                    ImGui.ColorEdit4($"Colour ##{number}", ref colour, ImGuiColorEditFlags.NoInputs);
-                    if (ImGui.TreeNode($"Jobs##{number}"))
+                    ImGui.Combo($"類型##{number}", ref type, _doodleOptions, _doodleOptions.Length);
+                    ImGui.ColorEdit4($"顏色##{number}", ref colour, ImGuiColorEditFlags.NoInputs);
+                    if (ImGui.TreeNode($"職業##{number}"))
                     {
                         var loop = 0;
                         ImGui.Columns(6);
@@ -241,39 +241,39 @@ public partial class PixelPerfect
                         ImGui.TreePop();
                     }
 
-                    ImGui.InputFloat($"Thickness ##{number}", ref thickness, 0.1f, 1f);
+                    ImGui.InputFloat($"線條粗細##{number}", ref thickness, 0.1f, 1f);
 
                     if (type == 0) //ring
                     {
-                        ImGui.InputFloat($"Radius##{number}", ref radius, 0.1f, 1f);
-                        ImGui.InputInt($"Segments ##{number}", ref segments, 1, 10);
-                        ImGui.Checkbox($"Offset##{number}", ref offset);
-                        ImGui.Checkbox($"Fill##{number}", ref filled);
-                        ImGui.Checkbox($"Z##{number}", ref zedding);
+                        ImGui.InputFloat($"半徑##{number}", ref radius, 0.1f, 1f);
+                        ImGui.InputInt($"分段數##{number}", ref segments, 1, 10);
+                        ImGui.Checkbox($"位移##{number}", ref offset);
+                        ImGui.Checkbox($"填滿##{number}", ref filled);
+                        ImGui.Checkbox($"使用 Z 軸##{number}", ref zedding);
                         if (zedding)
                         {
-                            ImGui.InputFloat($"Z-value##{number}", ref zed, 0.01f, 0.1f);
+                            ImGui.InputFloat($"Z 值##{number}", ref zed, 0.01f, 0.1f);
                         }
                         if (offset)
                         {
                             ImGui.SameLine();
-                            ImGui.Checkbox($"Rotate##{number}", ref rotateOffset);
-                            ImGui.InputFloat($"Offset X##{number}", ref x1, 0.1f, 1f);
-                            ImGui.InputFloat($"Offset Y##{number}", ref z1, 0.1f, 1f);
+                            ImGui.Checkbox($"旋轉位移##{number}", ref rotateOffset);
+                            ImGui.InputFloat($"位移 X##{number}", ref x1, 0.1f, 1f);
+                            ImGui.InputFloat($"位移 Y##{number}", ref z1, 0.1f, 1f);
                         }
                     }
 
                     if (type == 1) //line
                     {
-                        ImGui.Checkbox($"Locked North ##{number}", ref north);
+                        ImGui.Checkbox($"鎖定北方##{number}", ref north);
                         if (ImGui.IsItemHovered())
                         {
-                            ImGui.SetTooltip("Otherwise, player relative");
+                            ImGui.SetTooltip("未勾選時以玩家方向為基準");
                         }
-                        ImGui.Checkbox($"Z##{number}", ref zedding);
+                        ImGui.Checkbox($"使用 Z 軸##{number}", ref zedding);
                         if (zedding)
                         {
-                            ImGui.InputFloat($"Z-value##{number}", ref zed, 0.01f, 0.1f);
+                            ImGui.InputFloat($"Z 值##{number}", ref zed, 0.01f, 0.1f);
                         }
 
                         ImGui.PushItemWidth(100);
@@ -288,60 +288,60 @@ public partial class PixelPerfect
 
                     if (type == 2) //dot
                     {
-                        ImGui.InputFloat($"Radius##{number}", ref radius, 0.1f, 1f);
-                        ImGui.InputInt($"Segments ##{number}", ref segments, 1, 10);
-                        ImGui.Checkbox($"Filled##{number}", ref filled);
+                        ImGui.InputFloat($"半徑##{number}", ref radius, 0.1f, 1f);
+                        ImGui.InputInt($"分段數##{number}", ref segments, 1, 10);
+                        ImGui.Checkbox($"填滿##{number}", ref filled);
                         ImGui.SameLine();
-                        ImGui.Checkbox($"Offset##{number}", ref offset);
+                        ImGui.Checkbox($"位移##{number}", ref offset);
                         ImGui.SameLine();
-                        ImGui.Checkbox($"Outline##{number}", ref outline);
+                        ImGui.Checkbox($"外框##{number}", ref outline);
                         if (outline)
                         {
-                            ImGui.ColorEdit4($"Outline Colour ##{number}", ref outlineColour,
+                            ImGui.ColorEdit4($"外框顏色##{number}", ref outlineColour,
                                 ImGuiColorEditFlags.NoInputs);
                         }
-                        ImGui.Checkbox($"Z##{number}", ref zedding);
+                        ImGui.Checkbox($"使用 Z 軸##{number}", ref zedding);
                         if (zedding)
                         {
-                            ImGui.InputFloat($"Z-value##{number}", ref zed, 0.01f, 0.1f);
+                            ImGui.InputFloat($"Z 值##{number}", ref zed, 0.01f, 0.1f);
                         }
 
-                        ImGui.Checkbox($"Locked North ##{number}", ref north);
+                        ImGui.Checkbox($"鎖定北方##{number}", ref north);
                         if (ImGui.IsItemHovered())
                         {
-                            ImGui.SetTooltip("Otherwise, player relative");
+                            ImGui.SetTooltip("未勾選時以玩家方向為基準");
                         }
 
                         if (offset)
                         {
-                            ImGui.Checkbox($"Rotate offset relative to player##{number}", ref rotateOffset);
-                            ImGui.InputFloat($"Offset X##{number}", ref x1, 0.1f, 1f);
-                            ImGui.InputFloat($"Offset Y##{number}", ref z1, 0.1f, 1f);
+                            ImGui.Checkbox($"依玩家方向旋轉位移##{number}", ref rotateOffset);
+                            ImGui.InputFloat($"位移 X##{number}", ref x1, 0.1f, 1f);
+                            ImGui.InputFloat($"位移 Y##{number}", ref z1, 0.1f, 1f);
                         }
 
                         if (!north)
                         {
-                            ImGui.InputFloat($"Offset X2##{number}", ref x2, 0.1f, 1f);
-                            ImGui.InputFloat($"Offset Y2##{number}", ref z2, 0.1f, 1f);
+                            ImGui.InputFloat($"位移 X2##{number}", ref x2, 0.1f, 1f);
+                            ImGui.InputFloat($"位移 Y2##{number}", ref z2, 0.1f, 1f);
                         }
                     }
 
                     if (type == 3) //dashed ring
                     {
-                        ImGui.InputFloat($"Radius##{number}", ref radius, 0.1f, 1f);
-                        ImGui.InputInt($"Segments ##{number}", ref segments, 1, 10);
-                        ImGui.Checkbox($"Z##{number}", ref zedding);
+                        ImGui.InputFloat($"半徑##{number}", ref radius, 0.1f, 1f);
+                        ImGui.InputInt($"分段數##{number}", ref segments, 1, 10);
+                        ImGui.Checkbox($"使用 Z 軸##{number}", ref zedding);
                         if (zedding)
                         {
-                            ImGui.InputFloat($"Z-value##{number}", ref zed, 0.01f, 0.1f);
+                            ImGui.InputFloat($"Z 值##{number}", ref zed, 0.01f, 0.1f);
                         }
-                        ImGui.Checkbox($"Offset##{number}", ref offset);
+                        ImGui.Checkbox($"位移##{number}", ref offset);
                         if (offset)
                         {
                             ImGui.SameLine();
-                            ImGui.Checkbox($"Rotate##{number}", ref rotateOffset);
-                            ImGui.InputFloat($"Offset X##{number}", ref x1, 0.1f, 1f);
-                            ImGui.InputFloat($"Offset Y##{number}", ref z1, 0.1f, 1f);
+                            ImGui.Checkbox($"旋轉位移##{number}", ref rotateOffset);
+                            ImGui.InputFloat($"位移 X##{number}", ref x1, 0.1f, 1f);
+                            ImGui.InputFloat($"位移 Y##{number}", ref z1, 0.1f, 1f);
                         }
                     }
 
@@ -356,27 +356,27 @@ public partial class PixelPerfect
                             ImGui.Text($"{degr}");
                         }
                         
-                        ImGui.Checkbox($"Locked North ##{number}", ref north);
+                        ImGui.Checkbox($"鎖定北方##{number}", ref north);
                         if (ImGui.IsItemHovered())
                         {
-                            ImGui.SetTooltip("Otherwise, player relative");
+                            ImGui.SetTooltip("未勾選時以玩家方向為基準");
                         }
-                        ImGui.InputFloat($"Radius##{number}", ref radius, 0.1f, 1f);
-                        ImGui.InputInt($"Degrees ##{number}", ref segments, 1, 10);
-                        ImGui.Checkbox($"Offset##{number}", ref offset);
-                        ImGui.Checkbox($"Fill##{number}", ref filled);
-                        ImGui.Checkbox($"Target##{number}", ref outline);
-                        ImGui.Checkbox($"Z##{number}", ref zedding);
+                        ImGui.InputFloat($"半徑##{number}", ref radius, 0.1f, 1f);
+                        ImGui.InputInt($"角度##{number}", ref segments, 1, 10);
+                        ImGui.Checkbox($"位移##{number}", ref offset);
+                        ImGui.Checkbox($"填滿##{number}", ref filled);
+                        ImGui.Checkbox($"目標##{number}", ref outline);
+                        ImGui.Checkbox($"使用 Z 軸##{number}", ref zedding);
                         if (zedding)
                         {
-                            ImGui.InputFloat($"Z-value##{number}", ref zed, 0.01f, 0.1f);
+                            ImGui.InputFloat($"Z 值##{number}", ref zed, 0.01f, 0.1f);
                         }
                         if (offset)
                         {
                             ImGui.SameLine();
-                            ImGui.Checkbox($"Rotate##{number}", ref rotateOffset);
-                            ImGui.InputFloat($"Offset X##{number}", ref x1, 0.1f, 1f);
-                            ImGui.InputFloat($"Offset Y##{number}", ref z1, 0.1f, 1f);
+                            ImGui.Checkbox($"旋轉位移##{number}", ref rotateOffset);
+                            ImGui.InputFloat($"位移 X##{number}", ref x1, 0.1f, 1f);
+                            ImGui.InputFloat($"位移 Y##{number}", ref z1, 0.1f, 1f);
                         }
                     }
                     ImGui.PopItemWidth();
@@ -413,7 +413,7 @@ public partial class PixelPerfect
                     doodle.Outline = outline;
                     doodle.OutlineColour = outlineColour;
 
-                    if (ImGui.Button($"Show Editor##{number}"))
+                    if (ImGui.Button($"顯示編輯器##{number}"))
                     {
                         _editor = !_editor;
                     }
@@ -428,7 +428,7 @@ public partial class PixelPerfect
 
             ImGui.Separator();
 
-            if (ImGui.Button("Close"))
+            if (ImGui.Button("關閉"))
             {
                 SaveConfig();
                 _config = false;
@@ -439,7 +439,7 @@ public partial class PixelPerfect
             ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
             ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
 
-            if (ImGui.Button("Buy Haplo a Hot Chocolate"))
+            if (ImGui.Button("請 Haplo 喝杯熱巧克力"))
             {
                 Process.Start(new ProcessStartInfo
                 {
